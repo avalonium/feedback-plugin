@@ -1,0 +1,23 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    send_to_telegram:
+        label: Send notification to telegram
+        type: switch
+
+    telegram_bot_token:
+        label: Telegram bot token
+        trigger:
+            action: show
+            field: send_to_telegram
+            condition: checked
+
+    telegram_channel_id:
+        label: Telegram channel ID
+        trigger:
+            action: show
+            field: send_to_telegram
+            condition: checked

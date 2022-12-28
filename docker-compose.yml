@@ -1,0 +1,55 @@
+# docker-compose.yml
+version: '3'
+services:
+
+    # PHP Service
+    app:
+        container_name: octobercms-feedback-plugin
+        image: octobercms-feedback-plugin
+        ports:
+            - "80:80"
+        environment:
+            DB_HOST: db
+            DB_DATABASE: database
+            DB_USERNAME: root
+            DB_PASSWORD: password
+        volumes:
+            - storage-data:/var/www/html/storage
+            - ./:/var/www/html/plugins/avalonium/feedback
+        networks:
+            - app-network
+
+    # MySQL Service
+    db:
+        image: mariadb
+        restart: always
+        environment:
+            MYSQL_DATABASE: database
+            MYSQL_ROOT_PASSWORD: password
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - app-network
+
+    # Mysql helper Service
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        networks:
+            - app-network
+
+# Networks
+networks:
+    app-network:
+        driver: bridge
+
+# Volumes
+volumes:
+    storage-data:
+        driver: local
+    mysql-data:
+        driver: local

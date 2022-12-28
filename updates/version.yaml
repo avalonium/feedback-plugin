@@ -1,0 +1,5 @@
+1.0.1:
+    - Initialize plugin
+    - create_requests_table.php
+    - create_logs_table.php
+    - seed_init.php

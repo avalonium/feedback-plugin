@@ -1,0 +1,20 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    _details:
+        type: partial
+        path: $/avalonium/feedback/models/request/_field_details.htm
+
+    _utm:
+        type: partial
+        path: $/avalonium/feedback/models/request/_field_utm.htm
+
+tabs:
+    fields:
+
+        logs:
+            tab: Log
+            type: relation

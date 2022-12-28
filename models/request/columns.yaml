@@ -1,0 +1,71 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    number:
+        label: Number
+        type: text
+        searchable: true
+        width: 1%
+
+    status:
+        label: Status
+        type: selectable
+        width: 10%
+        options:
+            new: New
+            processed: Processed
+            canceled: Canceled
+
+    firstname:
+        label: Firstname
+        type: text
+        searchable: true
+        cssClass: t-nw
+        width: 1%
+
+    lastname:
+        label: Lastname
+        type: text
+        searchable: true
+        cssClass: t-nw
+        width: 1%
+
+    email:
+        label: Email
+        type: text
+        searchable: true
+        width: 15%
+
+    phone:
+        label: Phone
+        type: text
+        searchable: true
+        width: 15%
+
+    message:
+        label: Message
+        type: summary
+        align: right
+        limitWords: 5
+        cssClass: t-nw
+        sortable: false
+
+    created_at:
+        label: Created
+        type: date
+        format: d/m/Y h:m:s
+        width: 1%
+        cssClass: t-nw
+        align: right
+
+    updated_at:
+        invisible: true
+        label: Updated
+        type: date
+        format: d/m/Y h:m:s
+        width: 1%
+        cssClass: t-nw
+        align: right

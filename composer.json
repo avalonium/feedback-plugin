@@ -1,0 +1,27 @@
+{
+    "name": "avalonium/feedback-plugin",
+    "type": "october-plugin",
+    "description": "Feedback plugin for OctoberCMS",
+    "homepage": "https://github.com/avalonium/feedback-plugin",
+    "keywords": ["october", "octobercms", "feedback"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eugene Bazeliuk",
+            "email": "bazeliuk@avalonium.team",
+            "role": "Founder"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "laravel-notification-channels/telegram": "^3.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.20"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

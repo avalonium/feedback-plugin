@@ -1,0 +1,23 @@
+<?php if ($formModel->firstname || $formModel->lastname): ?>
+    <div class="callout callout-info no-icon no-subheader mb-2">
+        <div class="header">
+            <h3 class="oc-icon-user"><?= e($formModel->firstname) ?> <?= e($formModel->lastname) ?></h3>
+        </div>
+    </div>
+<?php endif ?>
+
+<?php if ($formModel->email): ?>
+    <div class="callout callout-info no-icon no-subheader mb-2">
+        <div class="header">
+            <h3 class="oc-icon-envelope-o"><?= e($formModel->email) ?></h3>
+        </div>
+    </div>
+<?php endif ?>
+
+<?php if ($formModel->phone): ?>
+    <div class="callout callout-info no-icon no-subheader">
+        <div class="header">
+            <h3 class="oc-icon-phone"><?= e($formModel->phone) ?></h3>
+        </div>
+    </div>
+<?php endif ?>
