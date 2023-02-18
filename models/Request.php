@@ -86,11 +86,11 @@ class Request extends Model
         'number' => 'string',
         'status' => 'string|in:new,processed,canceled',
         // Base
-        'firstname' => 'string',
-        'lastname' => 'string',
-        'email' => 'string|email',
-        'phone' => 'string',
-        'message' => 'string',
+        'firstname' => 'string|nullable',
+        'lastname' => 'string|nullable',
+        'email' => 'string|email|nullable',
+        'phone' => 'string|nullable',
+        'message' => 'string|nullable',
         // Metrics
         'referer' => 'string|nullable',
         'ip' => 'string|nullable'

@@ -4,8 +4,10 @@ use Flash;
 use Input;
 use Session;
 use Request;
+use Redirect;
 use Validator;
 use Exception;
+use Cms\Classes\Page;
 use ValidationException;
 use Cms\Classes\ComponentBase;
 use Avalonium\Feedback\Models\Request as RequestModel;
@@ -43,6 +45,12 @@ class Form extends ComponentBase
                 'default'           => __('Request successful created'),
                 'showExternalParam' => false,
             ],
+            'redirect' => [
+                'title'       => 'Redirect to',
+                'description' => 'Page name to redirect to after sending',
+                'type'        => 'dropdown',
+                'default'     => ''
+            ],
             'isRequiredFirstname' => [
                 'title' => __('Firstname field is required'),
                 'type' => 'checkbox',
@@ -74,6 +82,18 @@ class Form extends ComponentBase
                 'default' => true
             ]
         ];
+    }
+
+    //
+    // Options
+    //
+
+    public function getRedirectOptions()
+    {
+        return [
+                '' => '- refresh page -',
+                '0' => '- no redirect -'
+            ] + Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
     /**
@@ -118,6 +138,13 @@ class Form extends ComponentBase
 
             Flash::success($this->property('successMessage'));
 
+            /*
+             * Redirect
+             */
+            if ($redirect = $this->makeRedirection(true)) {
+                return $redirect;
+            }
+
         } catch (Exception $ex) {
             if (Request::ajax()) {
                 throw $ex;
@@ -153,5 +180,31 @@ class Form extends ComponentBase
         }
 
         Session::put('avalonium-feedback-marks', $data);
+    }
+
+    /**
+     * make Redirection
+     */
+    protected function makeRedirection($intended = false): mixed
+    {
+        $method = $intended ? 'intended' : 'to';
+
+        $property = post('redirect', $this->property('redirect'));
+
+        // No redirect
+        if ($property === '0') {
+            return false;
+        }
+
+        // Refresh page
+        if ($property === '') {
+            return Redirect::refresh();
+        }
+
+        $redirectUrl = $this->pageUrl($property) ?: $property;
+
+        if ($redirectUrl) {
+            return Redirect::$method($redirectUrl);
+        }
     }
 }
