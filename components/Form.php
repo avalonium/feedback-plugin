@@ -117,7 +117,8 @@ class Form extends ComponentBase
                 'lastname' => ['string'],
                 'email' => ['string', 'email'],
                 'phone' => ['string'],
-                'message' => ['string']
+                'message' => ['string'],
+                'is_agreement_accepted' => ['accepted']
             ];
 
             $validation = Validator::make($data, $this->extendValidationRules($rules));
