@@ -1,0 +1,14 @@
+<?php if ($formModel->isAmoAccessToken()): ?>
+    <div class="callout callout-info no-icon no-subheader mb-2">
+        <?= Form::button('&times;', [
+            'class' => 'close',
+            'data-request' => 'onRemoveAmoAccessToken',
+            'data-request-confirm' => 'Are you sure you want to remove this access token?'
+        ]) ?>
+        <div class="header">
+            <h3 class="oc-icon-ticket">AmoCRM token: <?= e($formModel->getAmoOwner()) ?></h3>
+        </div>
+    </div>
+<?php else: ?>
+    <?= $formModel->getAmoOAuthButton() ?>
+<?php endif ?>

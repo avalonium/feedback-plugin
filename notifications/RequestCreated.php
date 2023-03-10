@@ -2,7 +2,9 @@
 
 use Avalonium\Feedback\Models\Request;
 use Avalonium\Feedback\Models\Settings;
+use Avalonium\Feedback\Classes\AmoHelper;
 use Illuminate\Notifications\Notification;
+use Avalonium\Feedback\Channels\AmoChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 
 /**
@@ -12,7 +14,18 @@ class RequestCreated extends Notification
 {
     public function via($notifiable)
     {
-        return ['telegram'];
+        $channels = [];
+
+        Settings::get('send_to_amo') && $channels[] = AmoChannel::class;
+        Settings::get('send_to_telegram') && $channels[] = 'telegram';
+
+        return $channels;
+    }
+
+    public function toAmo(Request $notifiable): AmoHelper
+    {
+        return AmoHelper::create()
+            ->addLead($notifiable->getNotificationVars());
     }
 
     public function toTelegram(Request $notifiable)

@@ -31,7 +31,7 @@
 
     <div class="form-group">
         {{ form_label('agreement', 'Is agreement accepted') }}
-        {{ form_checkbox(is_agreement_accepted, true, true) }}
+        {{ form_checkbox('is_agreement_accepted', true, true) }}
     </div>
 
     {{ form_submit("Send", { class: 'btn btn-primary' }) }}

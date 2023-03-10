@@ -1,9 +1,14 @@
 <?php namespace Avalonium\Feedback;
 
 use App;
+use Flash;
 use Event;
+use Backend;
+use Redirect;
 use System\Classes\PluginBase;
+use System\Controllers\Settings;
 use Avalonium\Feedback\Components\Form;
+use Avalonium\Feedback\Classes\AmoHelper;
 use Avalonium\Feedback\Classes\FeedbackEventHandler;
 use Illuminate\Notifications\NotificationServiceProvider;
 use NotificationChannels\Telegram\TelegramServiceProvider;
@@ -33,5 +38,16 @@ class Plugin extends PluginBase
         // Register Providers
         App::register(NotificationServiceProvider::class);
         App::register(TelegramServiceProvider::class);
+
+        Settings::extend(function($controller) {
+            $controller->addDynamicMethod('onRemoveAmoAccessToken', function()
+            {
+                AmoHelper::removeOAuthAccessToken()
+                    ? Flash::success(__("OAuth access token successful removed"))
+                    : Flash::error(__('Something went wrong'));
+
+                return Redirect::to(Backend::url('system/settings/update/avalonium/feedback/settings'));
+            });
+        });
     }
 }

@@ -2,22 +2,60 @@
 #  Form Field Definitions
 # ===================================
 
-fields:
+tabs:
+    fields:
 
-    send_to_telegram:
-        label: Send notification to telegram
-        type: switch
+        # Tab - Amo
 
-    telegram_bot_token:
-        label: Telegram bot token
-        trigger:
-            action: show
-            field: send_to_telegram
-            condition: checked
+        send_to_amo:
+            tab: Amo
+            label: Send lead to amo
+            type: switch
 
-    telegram_channel_id:
-        label: Telegram channel ID
-        trigger:
-            action: show
-            field: send_to_telegram
-            condition: checked
+        amo_client_id:
+            tab: Amo
+            label: Amo client ID
+            trigger:
+                action: show
+                field: send_to_amo
+                condition: checked
+
+        amo_client_key:
+            tab: Amo
+            label: Amo client key
+            trigger:
+                action: show
+                field: send_to_amo
+                condition: checked
+
+        amo_button:
+            tab: Amo
+            type: partial
+            path: $/avalonium/feedback/models/settings/_field_amo_button.htm
+            trigger:
+                action: show
+                field: send_to_amo
+                condition: checked
+
+        # Tab - Telegram
+
+        send_to_telegram:
+            tab: Telegram
+            label: Send notification to telegram
+            type: switch
+
+        telegram_bot_token:
+            tab: Telegram
+            label: Telegram bot token
+            trigger:
+                action: show
+                field: send_to_telegram
+                condition: checked
+
+        telegram_channel_id:
+            tab: Telegram
+            label: Telegram channel ID
+            trigger:
+                action: show
+                field: send_to_telegram
+                condition: checked

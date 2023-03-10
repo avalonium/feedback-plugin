@@ -10,6 +10,7 @@ use Exception;
 use Cms\Classes\Page;
 use ValidationException;
 use Cms\Classes\ComponentBase;
+use Avalonium\Feedback\Classes\AmoHelper;
 use Avalonium\Feedback\Models\Request as RequestModel;
 
 /**
@@ -51,6 +52,18 @@ class Form extends ComponentBase
                 'type'        => 'dropdown',
                 'default'     => ''
             ],
+            'amoPipeline' => [
+                'title'       => 'AmoCRM pipeline',
+                'description' => '',
+                'type'        => 'dropdown',
+                'default'     => ''
+            ],
+            'amoPipelineStatus' => [
+                'title'       => 'AmoCRM pipeline status',
+                'description' => '',
+                'type'        => 'dropdown',
+                'default'     => ''
+            ],
             'isRequiredFirstname' => [
                 'title' => __('Firstname field is required'),
                 'type' => 'checkbox',
@@ -88,12 +101,26 @@ class Form extends ComponentBase
     // Options
     //
 
-    public function getRedirectOptions()
+    public function getRedirectOptions(): array
     {
         return [
                 '' => '- refresh page -',
                 '0' => '- no redirect -'
             ] + Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
+
+    public function getAmoPipelineOptions(): array
+    {
+        return [
+                '' => '- empty pipeline -',
+            ] + AmoHelper::create()->getPipelinesList();
+    }
+
+    public function getAmoPipelineStatusOptions(): array
+    {
+        return [
+                '' => '- empty pipeline status -',
+            ] + AmoHelper::create()->getPipelineStatusesList($this->property('amoPipeline'));
     }
 
     /**
@@ -129,13 +156,13 @@ class Form extends ComponentBase
 
             $model = RequestModel::make($data);
             $model->setAttribute('referer', Request::url());
+            $model->setAttribute('amo', [
+                'amo_pipeline_id' => $this->property('amoPipeline'),
+                'amo_pipeline_status_id' => $this->property('amoPipelineStatus'),
+            ]);
             $model->setAttribute('utm', Session::get('avalonium-feedback-marks', []));
             $model->setAttribute('ip', Request::getClientIp());
             $model->save();
-
-            if ($url = $this->property('url')) {
-                $model->sendData($url);
-            }
 
             Flash::success($this->property('successMessage'));
 

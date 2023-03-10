@@ -1,0 +1,9 @@
+<?php if ($formModel->amo): ?>
+    <div class="control-simplelist is-divided size-small mb-0" data-control="simplelist">
+        <ul class="mb-0">
+            <?php foreach ($formModel->amo as $key => $value): ?>
+            <li><strong><?= $key ?></strong> - <?= e($value) ?>
+                <?php endforeach ?>
+        </ul>
+    </div>
+<?php endif ?>

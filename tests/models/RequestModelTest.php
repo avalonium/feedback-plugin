@@ -14,6 +14,12 @@ class RequestModelTest extends PluginTestCase
     {
         Request::truncate();
 
+        $settings = \Avalonium\Feedback\Models\Settings::instance();
+        $settings->send_to_amo = true;
+        $settings->amo_client_id = '3ff05add-78e2-46ca-8db1-781f5b696a03';
+        $settings->amo_client_key = '3rWP8UbVg2UEZxSWofj3TSx9cbqx3EZeasevtGHE7VbTUIVZzPVZIeGJ32mFJKPr';
+        $settings->save();
+
         $model = Request::factory()->create();
 
         // Check Model

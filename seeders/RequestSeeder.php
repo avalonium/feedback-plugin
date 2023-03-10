@@ -3,7 +3,7 @@
 use Avalonium\Feedback\Models\Request;
 
 /**
- * Feedback Model Seeder
+ * Request Model Seeder
  */
 class RequestSeeder extends \October\Rain\Database\Updates\Seeder
 {
@@ -19,6 +19,10 @@ class RequestSeeder extends \October\Rain\Database\Updates\Seeder
             // Metrics
             'referer' => 'https://avalonium.team',
             'ip' => '127.0.0.1',
+            'amo' => [
+                'amo_pipeline_id' => '',
+                'amo_pipeline_status_id' => ''
+            ],
             'utm' => [
                 'utm_source' => 'source',
                 'utm_medium' => 'medium',

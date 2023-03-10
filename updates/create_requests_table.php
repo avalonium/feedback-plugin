@@ -27,6 +27,7 @@ class CreateRequestsTable extends Migration
             // Metrics
             $table->string('referer')->nullable();
             $table->string('ip')->nullable();
+            $table->json('amo')->nullable();
             $table->json('utm')->nullable();
             // Timestamps
             $table->timestamps();

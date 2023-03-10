@@ -1,13 +1,12 @@
 <?php namespace Avalonium\Feedback\Models;
 
-use Avalonium\Feedback\Notifications\RequestCreated;
 use DB;
 use Model;
 use Event;
 use Cache;
 use ApplicationException;
-use Illuminate\Notifications\Notifiable;
 use Avalonium\Feedback\Factories\RequestFactory;
+use Avalonium\Feedback\Notifications\RequestCreated;
 
 /**
  * Request Model
@@ -22,6 +21,7 @@ use Avalonium\Feedback\Factories\RequestFactory;
  * @property string     $message
  * @property string     $referer
  * @property string     $ip
+ * @property array      $amo
  * @property array      $utm
  *
  * @property-read bool  $is_new
@@ -37,7 +37,7 @@ use Avalonium\Feedback\Factories\RequestFactory;
  */
 class Request extends Model
 {
-    use Notifiable;
+    use \Illuminate\Notifications\Notifiable;
     use \October\Rain\Database\Traits\Validation;
     use \October\Rain\Database\Traits\SoftDelete;
     use \Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,13 +71,17 @@ class Request extends Model
         // Metrics
         'referer',
         'ip',
+        'amo',
         'utm'
     ];
 
     /**
      * @var array Json fields
      */
-    protected $jsonable  = ['utm'];
+    protected $jsonable  = [
+        'amo',
+        'utm'
+    ];
 
     /**
      * @var array rules for validation
@@ -211,19 +215,26 @@ class Request extends Model
     public function getNotificationVars(): array
     {
         return [
+            // Base
             'number' => $this->number,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
             'phone' => $this->phone,
             'message' => $this->message,
+            // Metrics
             'referer' => $this->referer,
             'ip' => $this->ip,
+            // UTM
             'utm_source' => array_get($this->utm, 'utm_source'),
             'utm_medium' => array_get($this->utm, 'utm_medium'),
             'utm_campaign' => array_get($this->utm, 'utm_campaign'),
             'utm_content' => array_get($this->utm, 'utm_content'),
             'utm_term' => array_get($this->utm, 'utm_term'),
+            // AmoCRM
+            'amo_pipeline_id' => array_get($this->amo, 'amo_pipeline_id'),
+            'amo_pipeline_status_id' => array_get($this->amo, 'amo_pipeline_status_id'),
+            // Timestamp
             'created_at' => $this->created_at->format('Y-m-d h:m')
         ];
     }

@@ -8,6 +8,10 @@ fields:
         type: partial
         path: $/avalonium/feedback/models/request/_field_details.htm
 
+    _amo:
+        type: partial
+        path: $/avalonium/feedback/models/request/_field_amo.htm
+
     _utm:
         type: partial
         path: $/avalonium/feedback/models/request/_field_utm.htm
