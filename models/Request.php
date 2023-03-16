@@ -1,6 +1,7 @@
 <?php namespace Avalonium\Feedback\Models;
 
 use DB;
+use Str;
 use Model;
 use Event;
 use Cache;
@@ -12,6 +13,7 @@ use Avalonium\Feedback\Notifications\RequestCreated;
  * Request Model
  *
  * @property-read int   $id
+ * @property-read int   $uuid
  * @property string     $status
  * @property string     $number
  * @property string     $firstname
@@ -87,23 +89,25 @@ class Request extends Model
      * @var array rules for validation
      */
     public $rules = [
+        'uuid' => 'string|between:1,255',
         'number' => 'string',
         'status' => 'string|in:new,processed,canceled',
         // Base
-        'firstname' => 'string|nullable',
-        'lastname' => 'string|nullable',
-        'email' => 'string|email|nullable',
-        'phone' => 'string|nullable',
-        'message' => 'string|nullable',
+        'firstname' => 'string|nullable|between:1,255',
+        'lastname' => 'string|nullable|between:1,255',
+        'email' => 'string|email|nullable|between:1,255',
+        'phone' => 'string|nullable|between:1,255',
+        'message' => 'string|nullable|between:1,255',
         // Metrics
-        'referer' => 'string|nullable',
-        'ip' => 'string|nullable'
+        'referer' => 'url|nullable|between:1,255',
+        'ip' => 'ip|nullable|between:1,255'
     ];
 
     /**
      * @var array Attributes to be cast to native types
      */
     protected $casts = [
+        'uuid' => 'string',
         'number' => 'string',
         'status' => 'string',
         // Base
@@ -143,6 +147,7 @@ class Request extends Model
     public function beforeCreate()
     {
         $this->updateStatus(self::STATUS_NEW);
+        $this->uuid = Str::orderedUuid()->toString();
     }
 
     public function afterCreate()
@@ -216,6 +221,7 @@ class Request extends Model
     {
         return [
             // Base
+            'uuid' => $this->uuid,
             'number' => $this->number,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,

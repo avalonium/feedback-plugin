@@ -16,6 +16,10 @@ fields:
         type: partial
         path: $/avalonium/feedback/models/request/_field_utm.htm
 
+    uuid:
+        type: text
+        span: full
+
 tabs:
     fields:
 

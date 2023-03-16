@@ -17,6 +17,7 @@ class CreateRequestsTable extends Migration
         Schema::create('avalonium_feedback_requests', function(Blueprint $table) {
             // Base
             $table->id();
+            $table->uuid();
             $table->string('status', 10);
             $table->string('number', 10)->nullable();
             $table->string('firstname', 50)->nullable();

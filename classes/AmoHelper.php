@@ -103,10 +103,17 @@ class AmoHelper
         $meta->setFormName('Form name');
         $meta->setIp(array_get($data, 'ip'));
         $meta->setFormPage(array_get($data, 'referer'));
-        $lead->setMetadata($meta);
 
-        $lead->setPipelineId(array_get($data, 'amo_pipeline_id'));
-        $lead->setStatusId(array_get($data, 'amo_pipeline_status_id'));
+        $lead->setMetadata($meta);
+        $lead->setRequestId(array_get($data, 'uuid'));
+
+        if ($pipelineId = array_get($data, 'amo_pipeline_id')) {
+            $lead->setPipelineId($pipelineId);
+        }
+
+        if ($statusId = array_get($data, 'amo_pipeline_status_id')) {
+            $lead->setStatusId($statusId);
+        }
 
         // Add lead to collection
         $this->leads->add($lead);
