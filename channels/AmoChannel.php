@@ -13,6 +13,6 @@ class AmoChannel
      */
     public function send(Request $notifiable, Notification $notification): void
     {
-        $notification->toAmo($notifiable)->sendLeads();
+        $notification->toAmo($notifiable)->sendLead();
     }
 }

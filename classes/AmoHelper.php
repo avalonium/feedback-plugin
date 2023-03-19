@@ -34,9 +34,9 @@ class AmoHelper
     private AmoCRMApiClient $client;
 
     /**
-     * Collection for leads
+     * Amo lead model
      */
-    private LeadsCollection $leads;
+    private LeadModel $lead;
 
     /**
      * OAuth access token
@@ -48,7 +48,7 @@ class AmoHelper
      */
     public function __construct(string $clientId, string $secretKey)
     {
-        $this->leads = new LeadsCollection;
+        $this->lead = new LeadModel();
         $this->client = (new AmoCRMApiClientFactory(new AmoConfig($clientId, $secretKey), new AmoService))->make();
 
         if ($this->checkAccessTokenFile()) {
@@ -65,10 +65,10 @@ class AmoHelper
      * @throws \AmoCRM\Exceptions\AmoCRMMissedTokenException
      * @throws \AmoCRM\Exceptions\AmoCRMoAuthApiException
      */
-    public function sendLeads(): void
+    public function sendLead(): void
     {
         try {
-            $this->client->leads()->addComplex($this->leads);
+            $this->client->leads()->addOne($this->lead);
         } catch (AmoCRMApiException $e) {
             throw $e;
         } catch (Exception $ex) {
@@ -79,12 +79,11 @@ class AmoHelper
     /**
      * Add lead to collection
      */
-    public function addLead($data): self
+    public function fillLead($data): self
     {
-        $lead = new LeadModel();
-        $lead->setName(array_get($data, 'number'));
+        $this->lead->setName(array_get($data, 'number'));
 
-        $lead->setContacts(
+        $this->lead->setContacts(
             (new ContactsCollection())->add(
                 (new ContactModel())
                     ->setFirstName(array_get($data, 'firstname'))
@@ -104,19 +103,16 @@ class AmoHelper
         $meta->setIp(array_get($data, 'ip'));
         $meta->setFormPage(array_get($data, 'referer'));
 
-        $lead->setMetadata($meta);
-        $lead->setRequestId(array_get($data, 'uuid'));
+        $this->lead->setMetadata($meta);
+        $this->lead->setRequestId(array_get($data, 'uuid'));
 
         if ($pipelineId = array_get($data, 'amo_pipeline_id')) {
-            $lead->setPipelineId($pipelineId);
+            $this->lead->setPipelineId($pipelineId);
         }
 
         if ($statusId = array_get($data, 'amo_pipeline_status_id')) {
-            $lead->setStatusId($statusId);
+            $this->lead->setStatusId($statusId);
         }
-
-        // Add lead to collection
-        $this->leads->add($lead);
 
         return $this;
     }

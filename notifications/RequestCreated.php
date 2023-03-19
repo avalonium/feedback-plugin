@@ -25,7 +25,7 @@ class RequestCreated extends Notification
     public function toAmo(Request $notifiable): AmoHelper
     {
         return AmoHelper::create()
-            ->addLead($notifiable->getNotificationVars());
+            ->fillLead($notifiable->getNotificationVars());
     }
 
     public function toTelegram(Request $notifiable)
